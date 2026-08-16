@@ -1,0 +1,17 @@
+# sbt / Scala build output
+target/
+project/target/
+project/project/
+.bsp/
+
+# IDE / Metals
+.metals/
+.bloop/
+.scala-build/
+*.worksheet.sc
+
+# p4c preprocessed source (a build artifact; the committed p4info/json are enough)
+src/main/resources/*.p4i
+
+# OS cruft
+.DS_Store

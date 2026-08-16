@@ -1,0 +1,42 @@
+p4rt-examples
+=============
+
+This repository is licensed under the GNU General Public License v3.0 (see
+LICENSE), because it contains and builds upon GPLv3 material.
+
+Vendored third-party material
+-----------------------------
+
+  p4/forwarding.p4
+
+    Taken verbatim from the p4-learning project by the Networked Systems Group
+    at ETH Zürich:
+
+        https://github.com/nsg-ethz/p4-learning
+        examples/ip_forwarding/forwarding.p4
+
+    Copyright (C) the p4-learning authors. Licensed under GPLv3.
+
+    Modification: an attribution/license header was prepended. The P4 body is
+    unchanged.
+
+Derived works generated from the vendored material (also GPLv3)
+--------------------------------------------------------------
+
+  src/main/resources/forwarding.p4info.json   p4c-emitted P4Runtime schema
+  src/main/resources/forwarding.json          p4c-emitted bmv2 device config
+  src/main/scala/generated/forwarding.scala   typegen-generated Scala types
+
+    These are produced from p4/forwarding.p4 by `gen.sh` and are committed so the
+    demo builds and runs without a P4 toolchain. Regenerating them requires p4c
+    1.2.5.15 and P4R-Type's typegen (see gen.sh).
+
+Dependency (not included; fetched from Maven Central)
+-----------------------------------------------------
+
+  io.github.oluies::p4rt-scala:0.1.0   "P4R-Type"
+
+    A separate project under the MIT license. It is consumed here only as a
+    published binary artifact — the ordinary case of a GPL work using an MIT
+    library. None of P4R-Type's source is copied into this repository, and this
+    repository's GPL terms do not extend to it.
