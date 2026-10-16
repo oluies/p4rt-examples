@@ -33,13 +33,36 @@ jobs:
       #
       # Two things carried over from P4R-Type, tied to the same GitHub account:
       #
-      # 1. STEWARD_TOKEN, not the default GITHUB_TOKEN. A PR opened with
-      #    GITHUB_TOKEN does not trigger other workflows — harmless today (this
-      #    repo has no CI to gate on), but if a CI workflow is added later, bump
-      #    PRs would silently skip it. Using a PAT keeps that path working. It
-      #    falls back to GITHUB_TOKEN if the secret is unset, so the workflow
-      #    still runs without it. The PAT must be a fine-grained token scoped to
-      #    this repository with Contents: RW and Pull requests: RW.
+      # 1. STEWARD_TOKEN, not the default GITHUB_TOKEN. The PAT is not
+      #    optional here, and the fallback below is not a safety net — read on
+      #    before relying on it.
+      #
+      #    With the secret unset, the fallback reaches GITHUB_TOKEN, and
+      #    GITHUB_TOKEN cannot open a PR in this repository at all: the
+      #    repository setting "Allow GitHub Actions to create and approve pull
+      #    requests" (Settings -> Actions -> General) is disabled, and
+      #    `pull-requests: write` above does not override it. Steward pushes its
+      #    branch, then the POST fails:
+      #
+      #      403 GitHub Actions is not permitted to create or approve pull
+      #          requests
+      #
+      #    which is how this workflow failed every run from 2026-10-05 to
+      #    2026-10-12, leaving four `update/*` branches with no PRs behind it:
+      #    p4rt-scala-0.2.0, sbt-2.0.7, sbt-2.0.8, scala3-library-3.9.0. The run
+      #    log reads as a Steward failure, so the cause is easy to miss.
+      #
+      #    Two ways out, and either is enough: set STEWARD_TOKEN (a PAT is not
+      #    subject to that setting), or enable the setting. A PAT is preferable
+      #    because it does not depend on a toggle that is invisible from here.
+      #    The PAT must be a fine-grained token scoped to this repository with
+      #    Contents: RW and Pull requests: RW.
+      #
+      #    A PR opened with GITHUB_TOKEN is also documented not to trigger other
+      #    workflows, which would matter if CI were added later. Noted second
+      #    because it is the smaller problem and, in the sibling repository
+      #    oluies/skogsalderavverkning, it did not reproduce: a Steward PR opened
+      #    under GITHUB_TOKEN there did get its `build` check.
       #
       # 2. author-email is required. This account has GitHub's email-privacy
       #    feature on, so without an explicit address Steward fails with "Unable
