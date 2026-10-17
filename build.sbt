@@ -16,7 +16,7 @@ ThisBuild / version       := "0.1.0-SNAPSHOT"
 // The one dependency. Its POM pulls scalapb-runtime(+grpc), protobuf-java-util and
 // grpc-netty transitively at compile scope, so the whole runtime — the gRPC
 // transport, the P4Runtime protobufs, and typegen — arrives with this single line.
-val p4rtScala = "io.github.oluies" %% "p4rt-scala" % "0.1.0"
+val p4rtScala = "io.github.oluies" %% "p4rt-scala" % "0.2.1"
 
 lazy val root = (project in file("."))
   .settings(
