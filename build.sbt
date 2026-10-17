@@ -6,7 +6,7 @@
 // way any GPL application may use an MIT library. Keeping this out of the P4R-Type
 // tree is what stops the copyleft from reaching back into that MIT project.
 
-// A library built with Scala 3.8.4 can only be read by compiler >= 3.8.4 (TASTy
+// A library built with Scala 3.10.0 can only be read by compiler >= 3.8.4 (TASTy
 // is not forward-compatible), and p4rt-scala 0.1.0 was built with 3.8.4 — so this
 // is a floor, not a preference. Match it exactly.
 ThisBuild / scalaVersion := "3.8.4"
