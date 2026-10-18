@@ -6,17 +6,28 @@
 // way any GPL application may use an MIT library. Keeping this out of the P4R-Type
 // tree is what stops the copyleft from reaching back into that MIT project.
 
-// A library built with Scala 3.8.4 can only be read by compiler >= 3.8.4 (TASTy
-// is not forward-compatible), and p4rt-scala 0.1.0 was built with 3.8.4 — so this
-// is a floor, not a preference. Match it exactly.
-ThisBuild / scalaVersion := "3.8.4"
+// TASTy is not forward-compatible, so the compiler here cannot be older than the
+// one p4rt-scala was built with. That is read off its POM rather than assumed:
+//
+//   p4rt-scala 0.1.0  ->  scala3-library_3 3.8.4
+//   p4rt-scala 0.2.0  ->  scala3-library_3 3.9.0
+//   p4rt-scala 0.2.1  ->  scala3-library_3 3.9.0
+//
+// So this is a floor, not a preference, and it moved when 0.2.0 did. Match it
+// exactly, and re-read the POM on the next bump instead of trusting this list.
+//
+// Renovate and Steward cannot maintain this pairing. A bump to the dependency
+// alone leaves the compiler behind and the build fails on TASTy; a bump to
+// scala3-library alone edits the numbers in this comment, which is all PR #4
+// did -- it rewrote the prose and left `scalaVersion` untouched.
+ThisBuild / scalaVersion := "3.9.0"
 ThisBuild / organization  := "io.github.oluies.examples"
 ThisBuild / version       := "0.1.0-SNAPSHOT"
 
 // The one dependency. Its POM pulls scalapb-runtime(+grpc), protobuf-java-util and
 // grpc-netty transitively at compile scope, so the whole runtime — the gRPC
 // transport, the P4Runtime protobufs, and typegen — arrives with this single line.
-val p4rtScala = "io.github.oluies" %% "p4rt-scala" % "0.1.0"
+val p4rtScala = "io.github.oluies" %% "p4rt-scala" % "0.2.1"
 
 lazy val root = (project in file("."))
   .settings(
