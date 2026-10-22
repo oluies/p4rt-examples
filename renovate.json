@@ -2,5 +2,28 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:recommended"
+  ],
+  "description": [
+    "Renovate covers the GitHub Actions workflows only.",
+    "",
+    "The sbt build is owned by Scala Steward (.github/workflows/scala-steward.yml).",
+    "This repository exists to consume io.github.oluies::p4rt-scala, so tracking",
+    "each new release of it is the whole maintenance loop, and Steward is what",
+    "does that -- successfully, as of 2026-10-17 and 2026-10-19.",
+    "",
+    "Renovate understands sbt as well, which is exactly the problem: the default",
+    "onboarding config detected build.sbt and project/build.properties, so leaving",
+    "the sbt manager enabled would have both bots opening the same bump. Scoping",
+    "Renovate to github-actions keeps the two from duplicating each other -- the",
+    "same boundary used in oluies/scala-hotwire and oluies/ddd-sample-scala."
+  ],
+  "enabledManagers": [
+    "github-actions"
+  ],
+  "packageRules": [
+    {
+      "matchManagers": ["github-actions"],
+      "groupName": "github actions"
+    }
   ]
 }
